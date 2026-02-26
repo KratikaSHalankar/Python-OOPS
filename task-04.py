@@ -55,6 +55,7 @@ class Cash(Payment):
         print("Thank You for ordering! Enjoy your meal.")   
 
 menu = []      # initially empty menu
+history = []   # list to store past orders
 order = Order()
 while True:
     print("\n------ONLINE FOOD ORDERING SYSTEM------")
@@ -62,8 +63,9 @@ while True:
     print("2. Show Menu")
     print("3. Place Order")
     print("4. Generate Bill")
-    print("5. Cancel Order")
-    print("6. Exit")
+    print("5. View History")
+    print("6. Cancel Order")
+    print("7. Exit")
 
     choice = int(input("Enter your choice: "))
 
@@ -107,8 +109,19 @@ while True:
             else:
                 payment = Cash()
             payment.pay(amount)
-
+            history.append(order)   # store completed order
+            order = Order()         # create new order
+    
     elif choice == 5:
+        if len(history) == 0:
+            print("No previous orders found!")
+        else:
+            print("\n-----ORDER HISTORY-----")
+            for i in range(len(history)):
+                print("\nOrder", i+1)
+                history[i].generate_bill()
+
+    elif choice == 6:
         order.cancel_order() 
 
     else:
